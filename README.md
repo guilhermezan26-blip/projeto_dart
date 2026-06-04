@@ -36,6 +36,21 @@ Aplicativo mobile desenvolvido em **Flutter** com backend **Supabase** para gere
 
 ---
 
+## 🚀 Gerar APK
+
+```bash
+flutter clean
+flutter pub get
+flutter build apk --debug
+```
+
+O APK gerado estará em:
+```
+build\app\outputs\flutter-apk\app-debug.apk
+```
+
+---
+
 ## 📁 Estrutura do projeto
 
 ```
