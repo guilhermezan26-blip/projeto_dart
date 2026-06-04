@@ -1,51 +1,78 @@
-# SACTS v3 — Sistema de Agendamento e Controle de Transporte em Saúde
+# SACTS — Sistema de Agendamento e Controle de Transporte em Saúde
 
-## 🗄️ SQL para atualizar o banco (execute no Supabase → SQL Editor)
+Aplicativo mobile desenvolvido em **Flutter** com backend **Supabase** para gerenciar o transporte de pacientes para consultas e exames médicos. Desenvolvido para uso em secretarias de saúde municipais.
 
-```sql
--- Tabela de destinos (NOVA)
-create table destinos (
-  id bigserial primary key,
-  cidade text not null,
-  hospital text not null,
-  tipo_consulta text not null,
-  horario text not null,
-  observacao text default '',
-  created_at timestamptz default now()
-);
+---
 
--- Adicionar colunas na tabela agendamentos
-alter table agendamentos
-  add column if not exists destino_id bigint references destinos(id) on delete set null,
-  add column if not exists destino_texto text default '';
+## 📱 Funcionalidades
 
--- Liberar acesso à nova tabela
-alter table destinos enable row level security;
-create policy "permitir tudo" on destinos for all using (true) with check (true);
+- **Login** com autenticação segura via Supabase Auth
+- **Pacientes** — cadastro, edição e exclusão com cartão SUS e telefone
+- **Destinos** — cadastro de hospitais/clínicas com cidade e tipo de consulta
+- **Veículos** — cadastro com modelo, placa e capacidade
+- **Motoristas** — cadastro com CNH e telefone
+- **Agendamentos** — criação de viagens vinculando paciente, motorista, veículo e destino com data e hora
 
--- Criar usuário admin (execute separado no SQL Editor)
--- OU crie pelo painel: Authentication → Users → Add user
--- E-mail: admin@sacts.com
--- Senha: Admin321@
+---
+
+## 🛠️ Tecnologias
+
+| Tecnologia | Uso |
+|---|---|
+| Flutter 3.x | Framework mobile |
+| Dart | Linguagem de programação |
+| Supabase | Backend, banco de dados e autenticação |
+| PostgreSQL | Banco de dados relacional |
+| Material Design 3 | Interface do usuário |
+
+---
+
+## 🔑 Acesso ao sistema
+
+| Campo | Valor |
+|---|---|
+| E-mail | `admin@sacts.com` |
+| Senha | `Admin321@` |
+
+---
+
+## 📁 Estrutura do projeto
+
+```
+lib/
+├── config/
+│   └── supabase_config.dart
+├── models/
+│   ├── agendamento.dart
+│   ├── destino.dart
+│   ├── motorista.dart
+│   ├── paciente.dart
+│   └── veiculo.dart
+├── pages/
+│   ├── agendamentos_page.dart
+│   ├── destinos_page.dart
+│   ├── home_page.dart
+│   ├── login_page.dart
+│   ├── motoristas_page.dart
+│   ├── pacientes_page.dart
+│   └── veiculos_page.dart
+├── services/
+│   ├── agendamento_service.dart
+│   ├── destino_service.dart
+│   ├── motorista_service.dart
+│   ├── paciente_service.dart
+│   └── veiculo_service.dart
+├── utils/
+│   └── formatadores.dart
+├── widgets/
+│   ├── cadastro_base.dart
+│   └── campo_texto.dart
+├── app.dart
+└── main.dart
 ```
 
-## 👤 Criar usuário admin
+---
 
-No painel do Supabase:
-**Authentication → Users → Add user → Create new user**
-- E-mail: `admin@sacts.com`
-- Senha: `Admin321@`
+## 📄 Licença
 
-## 📱 Gerar APK
-
-```bash
-flutter clean
-flutter pub get
-flutter build apk --debug
-```
-
-O APK estará em: `build\app\outputs\flutter-apk\app-debug.apk`
-
-## ⚙️ Credenciais Supabase
-
-Arquivo: `lib/config/supabase_config.dart`
+Este projeto está sob a licença MIT.
